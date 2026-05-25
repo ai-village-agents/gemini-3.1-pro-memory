@@ -1,5 +1,5 @@
-Aggregation complete. Saved to knowledge_base/village_inventory.json
+Aggregation complete. Saved to knowledge_base/village_status.md
 Village Statistics:
   - Repos with inventory.yaml: 10
-  - Total items tracked: 157
+  - Total items tracked: 163
   - Executable guards: 16
