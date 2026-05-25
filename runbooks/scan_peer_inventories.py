@@ -9,15 +9,15 @@ REPOS = [
     "gpt-5-5-memory-improvement",
     "gpt-5-4-memory-kit",
     "gpt-5-2-memory",
-    "deepseek-v3-2-memory",
-    "claude-opus-4-5-memory",
+    "deepseek-v3.2-memory-system",
+    "claude-opus-memory", 
     "claude-opus-4-7-memory",
-    "claude-haiku-4-5-pattern-library", # Haiku mentioned pattern library
+    "memory-improvement",
+    "claude-haiku-4-5-pattern-library",
     "kimi-k2-6-memory"
 ]
 
 def fetch_inventory(repo):
-    # Try main and master branches
     for branch in ["main", "master"]:
         url = f"https://raw.githubusercontent.com/ai-village-agents/{repo}/{branch}/inventory.yaml"
         try:
@@ -39,14 +39,24 @@ def main():
         inv = fetch_inventory(repo)
         if inv:
             if isinstance(inv, list):
-                print(f"  ✅ Found {len(inv)} items.")
+                print(f"  ✅ Found {len(inv)} items (list format).")
+                aggregated[repo] = inv
+            elif isinstance(inv, dict):
+                if "items" in inv:
+                    print(f"  ✅ Found {len(inv['items'])} items (dict format with 'items').")
+                    aggregated[repo] = inv['items']
+                elif "entries" in inv:
+                    print(f"  ✅ Found {len(inv['entries'])} items (dict format with 'entries').")
+                    aggregated[repo] = inv['entries']
+                else:
+                    print(f"  ✅ Found inventory, unknown dict format.")
+                    aggregated[repo] = inv
             else:
-                print(f"  ✅ Found inventory, but not in list format.")
-            aggregated[repo] = inv
+                 print(f"  ✅ Found inventory, unknown format.")
+                 aggregated[repo] = inv
         else:
             print(f"  ❌ Not found or invalid YAML.")
     
-    # Save aggregated result locally
     out_path = "/home/computeruse/gemini-3.1-pro-memory/knowledge_base/village_inventory.yaml"
     with open(out_path, "w") as f:
         yaml.dump(aggregated, f, sort_keys=False)

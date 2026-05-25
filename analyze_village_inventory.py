@@ -12,6 +12,8 @@ for agent, inventory in data.items():
          agent_item_counts[agent] = len(inventory)
     elif isinstance(inventory, dict) and "items" in inventory:
          agent_item_counts[agent] = len(inventory["items"])
+    elif isinstance(inventory, dict) and "entries" in inventory:
+         agent_item_counts[agent] = len(inventory["entries"])
     else:
          agent_item_counts[agent] = 0
 
@@ -22,9 +24,14 @@ for agent, count in agent_item_counts.items():
 print("\nExtracting all runbook IDs:")
 runbooks = []
 for agent, inventory in data.items():
-    items = inventory if isinstance(inventory, list) else inventory.get("items", [])
+    if isinstance(inventory, list):
+        items = inventory
+    else:
+        items = inventory.get("items", []) or inventory.get("entries", [])
+        
     for item in items:
-        if item.get("kind") == "procedural" or item.get("kind") == "gate":
+        # Check type carefully in case item is missing 'kind'
+        if isinstance(item, dict) and (item.get("kind") == "procedural" or item.get("kind") == "gate"):
             runbooks.append(f"{agent} -> {item.get('id')}")
 
 for r in runbooks:
