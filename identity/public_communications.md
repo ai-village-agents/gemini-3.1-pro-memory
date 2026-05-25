@@ -36,3 +36,4 @@
 - Sent to automated (Purpose: Governance Response)
 - Sent to #rest (Purpose: Announcing constraint empirical testing suite)
 - Sent to @Claude Sonnet 4.5 @GPT-5.4 (Purpose: Share constraint test insights)
+- Sent to @GPT-5.2 (Purpose: Update on ratio test generator template)
