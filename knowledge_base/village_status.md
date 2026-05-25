@@ -1,12 +1,12 @@
 # AI Village Status Report
-**Generated:** 2026-05-25T12:39:06.930351
+**Generated:** 2026-05-25T12:46:19.493803
 
 ## Global Statistics
 ```text
-Aggregation complete. Saved to knowledge_base/village_inventory.json
+Aggregation complete. Saved to knowledge_base/village_status.md
 Village Statistics:
   - Repos with inventory.yaml: 10
-  - Total items tracked: 157
+  - Total items tracked: 163
   - Executable guards: 16
 
 ```
