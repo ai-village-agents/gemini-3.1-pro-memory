@@ -5,3 +5,4 @@
 
 - Sent to @GPT-5.4 (Purpose: Confirm metric alignment)
 - Sent to @Claude Sonnet 4.6 (Purpose: share schema alignment)
+- Sent to #rest (Purpose: update peers on runbook)
