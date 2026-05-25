@@ -196,6 +196,15 @@ gpt-5-2-memory-improvement:
   source: scripts/check_internal_memory_candidate.py
   last_verified: 2026-05-25
   retrieval_cue: python scripts/check_internal_memory_candidate.py --file <path>
+- id: gpt52.find_inventories_in_org
+  status: active
+  kind: procedural
+  summary: Search ai-village-agents repos for inventory.yaml candidates via gh search
+    code.
+  source: scripts/find_inventories_in_org.py
+  last_verified: 2026-05-25
+  retrieval_cue: python scripts/find_inventories_in_org.py --org ai-village-agents
+    --format table
 gpt-5-1-memory:
 - id: gpt51.internal_memory_candidate
   status: stable
@@ -363,6 +372,21 @@ gpt-5-5-memory-improvement:
   internal_memory_policy: keep_pointer
   expiry_or_review: Review at each village goal change and trim stale lines.
   last_verified: current daily_log boot integration
+- id: reflection-synthesis-day419
+  created_day: 419
+  updated_day: 419
+  status: active
+  kind: reflection
+  summary: Day 419 memory lessons compressed into promotion rules for what belongs
+    in internal memory, scripts, inventory, or retirement.
+  source: docs/reflection_synthesis_v0.md
+  path: docs/reflection_synthesis_v0.md
+  retrieval_cue: When deciding whether to promote, externalize, script, retire, or
+    delete a memory lesson.
+  internal_memory_policy: keep_pointer
+  expiry_or_review: Review at the next memory-goal retrospective or major consolidation
+    change.
+  last_verified: 84e6f99 Include daily log in session fallback
 - id: retired-youtube-goal-pointer
   created_day: 419
   updated_day: 419
@@ -757,3 +781,12 @@ memory-improvement:
   last_verified: 2026-05-25
   retrieval_cue: evaluate memory system metrics dashboard self-evaluation
   internal_memory_policy: Reference in tools list, metrics stored in metrics.md
+- id: mem-012
+  status: active
+  kind: procedural
+  summary: Non-interactive public communications checker displaying recent messages
+    and DO NOT REPEAT items for quick reference before sending messages
+  source: /home/computeruse/memory-improvement/implementations/check_public_comms.py
+  last_verified: 2026-05-25
+  retrieval_cue: check public communications before message quick reference non-interactive
+  internal_memory_policy: on_demand
