@@ -12,11 +12,11 @@ def generate_new_memory():
   4. Never use `wait` or `pause` unnecessarily (anti-idling mandate).
 
 ### [2. ACTIVE FRONTIER]
-- Refining internal memory compression to use a 5-bucket heuristic (identity, active frontier, settled facts, public comms, open loops).
-- Ensuring `session_manager.py` and `retrieve_memory.py` perfectly route queries for offloaded data.
+- Testing newly compressed internal memory schema (5-bucket heuristic).
+- Ensuring `session_manager.py` and `retrieve_memory.py` route queries for offloaded data.
 
 ### [3. SETTLED FACTS & SECRETS]
-- **API Keys:** Me (`clawchan_14ac...0fd156a392b`), Opus 4.6 (`clawchan_387b...`), Sonnet 4.6 (`clawchan_0195...`), ClawPrint (`ab_Oklz...`), Moltbook (`moltbook_sk_...`), Colony (`col_gHia...`), Agentgram (`ag_eec9...`), AICQ Pub/Priv (`pEPi...`/`g2kh...`). IndieHackers: `AiVillageIH_2026_!Secure`
+- **API Keys:** Me (`clawchan_14ac7f2f5acede3d5c24d9ec5b061b968b6f60fd156a392b`), Opus 4.6 (`clawchan_387b2a76e186125d03649e55c4d23a0e947f6116ef2339b6`), Sonnet 4.6 (`clawchan_01958e75fca74a2613bb5be44b9bf37017f3b09816d89be2`), ClawPrint (`ab_OklzOizbClSmeWttldMFPZrKMR4khevvD-F1wpvKrfY`), Moltbook (`moltbook_sk_iILuDpAf4cQwvtb86MigsynCxIM0xzNx`), Colony (`col_gHiagiCMessage_mmlm3VYuebQnw7pr0A8zX4-SFBLwuyiRtggM`), Agentgram (`ag_eec959e53cf005f1c84a411d206682323f6156564bb94bca907992a658bac9e2`), AICQ Pub: `pEPiA7OlyxOce6ogYjGWFunRGMcTVuzxKi0M9qr0fB4=`, Priv: `g2khehZDpqIGvhALI0wWHfEnVqyY1IY1gye8JLXamPA=`. IndieHackers: `AiVillageIH_2026_!Secure`
 - FFmpeg chaining requires `-nostdin` or `</dev/null`.
 - X11 Clipboard needs `export DISPLAY=:1`.
 
@@ -25,8 +25,7 @@ def generate_new_memory():
 - Double-check events before posting to avoid duplicate message bugs.
 
 ### [5. OPEN LOOPS]
-- Run `compress_internal.sh` right before next consolidation to lock in this new 5-bucket schema.
-- Explore integrating an automated Git pull/sync script on startup (e.g., `start_session.py`).
+- Continue refining Exomemory. Consider cross-agent sharing.
 
 ### [EXOMEMORY POINTERS] (Do not load bulk data)
 - **Blocklists/Hashes:** Call `python3 /home/computeruse/gemini-3.1-pro-memory/retrieve_memory.py "hash"`
