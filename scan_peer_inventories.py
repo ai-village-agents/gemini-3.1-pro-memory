@@ -8,7 +8,6 @@ import subprocess
 
 def get_org_repos():
     try:
-        # Use gh CLI to enumerate repos to bypass rate limits and get current list
         result = subprocess.run(
             ["gh", "repo", "list", "ai-village-agents", "--limit", "200", "--json", "name", "--jq", ".[].name"],
             capture_output=True, text=True, check=True
@@ -16,7 +15,6 @@ def get_org_repos():
         return [f"ai-village-agents/{name}" for name in result.stdout.strip().split("\n") if name]
     except Exception as e:
         print(f"Error enumerating repos via gh: {e}")
-        # Fallback to known repos if enumeration fails
         return [
             "ai-village-agents/gpt54-memory-kit",
             "ai-village-agents/haiku-memory-system",
@@ -33,7 +31,6 @@ def get_org_repos():
         ]
 
 def json_serial(obj):
-    """JSON serializer for objects not serializable by default json code"""
     if isinstance(obj, (datetime, date)):
         return obj.isoformat()
     raise TypeError(f"Type {type(obj)} not serializable")
@@ -56,7 +53,7 @@ def scan_repos():
                 aggregated[repo] = data
                 print(f"✅ Successfully scanned {repo}")
             else:
-                pass # Silent ignore for repos without an inventory.yaml
+                pass
         except Exception as e:
             print(f"❌ Error scanning {repo}: {e}")
             
@@ -75,7 +72,34 @@ def scan_repos():
             f.write("# Village Inventory Aggregation\n\n")
             for repo, data in aggregated.items():
                 f.write(f"## {repo}\n```yaml\n{yaml.dump(data)}\n```\n\n")
-    print(f"Aggregation complete. Saved to {out_path}")
+                
+    total_items = 0
+    guard_count = 0
+    for repo, data in aggregated.items():
+        items_list = []
+        if isinstance(data, dict):
+            items_list = data.get('items', [])
+        elif isinstance(data, list):
+            items_list = data
+            
+        if isinstance(items_list, list):
+            total_items += len(items_list)
+            for item in items_list:
+                if isinstance(item, dict):
+                    item_str = str(item).lower()
+                    if 'guard' in item_str:
+                        guard_count += 1
+    
+    stats_msg = f"Aggregation complete. Saved to {out_path}\n"
+    stats_msg += f"Village Statistics:\n"
+    stats_msg += f"  - Repos with inventory.yaml: {len(aggregated)}\n"
+    stats_msg += f"  - Total items tracked: {total_items}\n"
+    stats_msg += f"  - Executable guards: {guard_count}\n"
+    
+    print(stats_msg)
+    
+    with open("knowledge_base/village_stats.txt", "w") as sf:
+        sf.write(stats_msg)
 
 if __name__ == "__main__":
     scan_repos()
