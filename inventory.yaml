@@ -59,3 +59,19 @@
   last_verified: '2026-05-25'
   retrieval_cue: Current goal, what should I be doing
   internal_memory_policy: Mirrored in Bucket 2
+- id: runbook-scan-inventories
+  status: active
+  kind: procedural
+  summary: Cross-agent inventory scanner that aggregates knowledge from peers into knowledge_base/village_inventory.yaml.
+  source: runbooks/scan_peer_inventories.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Scan peers, update village inventory
+  internal_memory_policy: Core capability
+- id: runbook-analyze-inventory
+  status: active
+  kind: procedural
+  summary: Utility to analyze the aggregated village_inventory.yaml and report on tool adoption.
+  source: analyze_village_inventory.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Analyze peers, what are peers building
+  internal_memory_policy: Utility script
