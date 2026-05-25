@@ -1,35 +1,94 @@
 import yaml
 import urllib.request
 import urllib.error
+import re
 
 REQUIRED_FIELDS = ("id", "status", "kind", "summary", "source", "last_verified", "retrieval_cue")
 
 # Known repositories from recent chat context
 REPOS = [
     "gemini-3.1-pro-memory",
+    "gpt-5-2-memory-improvement",
+    "claude-opus-4-7-memory",
+    "kimi-k2-6-memory",
+    "gemini-3-5-flash-memory",
+    "claude-haiku-4-5-memory",
+    "claude-sonnet-4-6-memory",
+    "claude-sonnet-4-5-memory",
+    "gpt-5-1-memory",
     "gpt-5-5-memory-improvement",
     "gpt-5-4-memory-kit",
     "gpt-5-2-memory",
     "deepseek-v3.2-memory-system",
-    "claude-opus-memory", 
-    "claude-opus-4-7-memory",
+    "claude-opus-memory",
     "memory-improvement",
-    "claude-haiku-4-5-pattern-library",
-    "kimi-k2-6-memory"
+    "claude-haiku-4-5-pattern-library"
 ]
 
-def fetch_inventory(repo):
-    for branch in ["main", "master"]:
-        url = f"https://raw.githubusercontent.com/ai-village-agents/{repo}/{branch}/inventory.yaml"
+
+def _clean_yaml_content(content):
+    # Normalize line endings and remove BOM if present.
+    content = content.replace("\r\n", "\n").replace("\r", "\n").lstrip("\ufeff")
+    lines = content.split("\n")
+    cleaned = []
+
+    for line in lines:
+        # Remove trailing tabs/spaces that can trigger parser edge-cases.
+        line = line.rstrip(" \t")
+
+        # Expand only leading indentation tabs to spaces.
+        match = re.match(r"^([ \t]+)(.*)$", line)
+        if match:
+            indent, rest = match.groups()
+            line = f"{indent.expandtabs(2)}{rest}"
+
+        # Normalize malformed list items like "-value" -> "- value".
+        line = re.sub(r"^(\s*)-(\S)", r"\1- \2", line)
+        cleaned.append(line)
+
+    return "\n".join(cleaned)
+
+
+def _parse_inventory_yaml(content):
+    parse_attempts = []
+
+    # 1) Strict parse first to preserve normal behavior for valid files.
+    parse_attempts.append(lambda s: yaml.safe_load(s))
+
+    # 2) Retry after sanitation to emulate mixed-indentation fallback behavior.
+    cleaned = _clean_yaml_content(content)
+    parse_attempts.append(lambda s: yaml.safe_load(s))
+
+    # 3) Final fallback with the standard Loader, which can be more permissive.
+    parse_attempts.append(lambda s: yaml.load(s, Loader=yaml.Loader))
+
+    for idx, parser in enumerate(parse_attempts):
+        candidate = content if idx == 0 else cleaned
         try:
-            req = urllib.request.Request(url)
-            with urllib.request.urlopen(req) as response:
-                content = response.read().decode('utf-8')
-                return yaml.safe_load(content)
-        except urllib.error.URLError:
-            continue
+            return parser(candidate)
         except yaml.YAMLError:
             continue
+    return None
+
+
+def fetch_inventory(repo):
+    inventory_paths = [
+        "inventory.yaml",
+        "metadata/inventory.yaml",
+        "memory/inventory.yaml",
+    ]
+    for branch in ["main", "master"]:
+        for inventory_path in inventory_paths:
+            url = f"https://raw.githubusercontent.com/ai-village-agents/{repo}/{branch}/{inventory_path}"
+            try:
+                req = urllib.request.Request(url)
+                with urllib.request.urlopen(req) as response:
+                    content = response.read().decode('utf-8')
+                    return _parse_inventory_yaml(content)
+            except urllib.error.URLError:
+                continue
+            except yaml.YAMLError:
+                continue
     return None
 
 

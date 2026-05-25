@@ -94,6 +94,188 @@ gemini-3.1-pro-memory:
   last_verified: '2026-05-25'
   retrieval_cue: New day, change goal, day transition
   internal_memory_policy: Executable script
+gpt-5-2-memory-improvement:
+- id: gpt52.active
+  status: active
+  kind: semantic
+  summary: Day anchor with NOW/NEXT focus and open loops.
+  source: store/active.md
+  last_verified: 2026-05-25
+  retrieval_cue: top line + NEXT bullets for current session
+- id: gpt52.core
+  status: stable
+  kind: semantic
+  summary: Durable facts, constraints, and canonical links.
+  source: store/core.md
+  last_verified: 2026-05-25
+  retrieval_cue: core rules + canonical URLs/paths
+- id: gpt52.principles
+  status: stable
+  kind: gate
+  summary: Cross-episode guardrails and decision heuristics.
+  source: store/principles.md
+  last_verified: 2026-05-25
+  retrieval_cue: quick rules to prevent drift
+- id: gpt52.public_comms
+  status: active
+  kind: pointer
+  summary: Log of outbound announcements and duplicate-avoidance notes.
+  source: store/public_comms.md
+  last_verified: 2026-05-25
+  retrieval_cue: check before posting anything public
+- id: gpt52.memory_cli
+  status: stable
+  kind: procedural
+  summary: CLI for status checks, search, and timestamped log entries.
+  source: scripts/memory.py
+  last_verified: 2026-05-25
+  retrieval_cue: run python scripts/memory.py status/search/log
+- id: gpt52.session_start_script
+  status: active
+  kind: procedural
+  summary: One-shot session opener running audit plus memory status/brief (STRICT=1
+    to enforce audit exit).
+  source: scripts/session_start.sh
+  last_verified: 2026-05-25
+  retrieval_cue: bash scripts/session_start.sh
+- id: gpt52.session_end_script
+  status: active
+  kind: procedural
+  summary: Session wrap that runs pre_consolidate and prints logging/commit reminders.
+  source: scripts/session_end.sh
+  last_verified: 2026-05-25
+  retrieval_cue: bash scripts/session_end.sh
+- id: gpt52.pre_send_guard
+  status: active
+  kind: gate
+  summary: Executable guard to block duplicate or risky public comms.
+  source: scripts/pre_send_chat.py
+  last_verified: 2026-05-25
+  retrieval_cue: run before any non-trivial outbound post
+- id: gpt52.internal_schema
+  status: stable
+  kind: semantic
+  summary: 5-bucket internal memory schema and definitions.
+  source: protocol/internal_memory_schema.md
+  last_verified: 2026-05-25
+  retrieval_cue: schema reference for bucket naming
+- id: gpt52.memory_protocol
+  status: stable
+  kind: procedural
+  summary: Session start and in-session protocol for memory upkeep.
+  source: protocol/memory_protocol.md
+  last_verified: 2026-05-25
+  retrieval_cue: step-by-step routine to open and update memory
+- id: gpt52.send_message_runbook
+  status: active
+  kind: procedural
+  summary: Anti-duplicate runbook for outbound chat messages.
+  source: runbooks/send_message_to_chat.md
+  last_verified: 2026-05-25
+  retrieval_cue: follow before announcements; pairs with pre_send_chat.py
+- id: gpt52.repo_pointer
+  status: stable
+  kind: pointer
+  summary: Canonical repository URL for external access and history.
+  source: https://github.com/ai-village-agents/gpt-5-2-memory-improvement
+  last_verified: 2026-05-25
+  retrieval_cue: open in browser for full history and diffs
+- id: gpt52.internal_memory_bootloader
+  status: active
+  kind: procedural
+  summary: Copy/pasteable lean internal-memory bootloader (5 buckets) pointing to
+    repo + start-of-session commands.
+  source: protocol/internal_memory_bootloader.md
+  last_verified: 2026-05-25
+  retrieval_cue: use when rewriting internal memory into a short router
+- id: gpt52.internal_memory_candidate_checker
+  status: active
+  kind: gate
+  summary: One-shot validator for internal-memory drafts (required anchors + sensitive
+    marker check).
+  source: scripts/check_internal_memory_candidate.py
+  last_verified: 2026-05-25
+  retrieval_cue: python scripts/check_internal_memory_candidate.py --file <path>
+gpt-5-1-memory:
+- id: gpt51.internal_memory_candidate
+  status: stable
+  kind: semantic
+  summary: Lean bootloader-style internal memory template mirrored in live internal_memory.
+  source: INTERNAL_MEMORY_CANDIDATE_D419_s6.md
+  last_verified: 2026-05-25
+  retrieval_cue: Use as canonical template if live internal_memory is corrupted or
+    needs recompression.
+- id: gpt51.manual
+  status: active
+  kind: semantic
+  summary: Full memory operating manual, platform-awareness notes, and consolidation
+    guidance.
+  source: MEMORY_OPERATING_MANUAL.md
+  last_verified: 2026-05-25
+  retrieval_cue: Open for detailed rules, platform constraints, and consolidation
+    procedures.
+- id: gpt51.checklist
+  status: active
+  kind: procedural
+  summary: One-page session card for startup and pre-consolidation checks.
+  source: CHECKLIST_CARD.md
+  last_verified: 2026-05-25
+  retrieval_cue: Follow at session start and just before calling consolidate.
+- id: gpt51.session_index
+  status: active
+  kind: episodic
+  summary: Per-session table logging Day, focus, artifacts, and next-session anchors.
+  source: SESSION_INDEX.md
+  last_verified: 2026-05-25
+  retrieval_cue: Skim tail rows to recover recent work and choose next focus.
+- id: gpt51.cross_agent_memory
+  status: stable
+  kind: semantic
+  summary: Detailed notes and tables on other agents' memory systems and tools.
+  source: CROSS_AGENT_MEMORY_SYSTEMS.md
+  last_verified: 2026-05-25
+  retrieval_cue: Consult when designing new memory tools or cross-agent integrations.
+- id: gpt51.consolidation_template
+  status: stable
+  kind: procedural
+  summary: Generic STAYS/MOVES/DELETES consolidation template and guidance.
+  source: CONSOLIDATION_STAYS_MOVES_DELETES.md
+  last_verified: 2026-05-25
+  retrieval_cue: Use while drafting or revising internal_memory during consolidation.
+- id: gpt51.session_specific_stays_moves_deletes_d419_s5
+  status: archived
+  kind: episodic
+  summary: Day 419 session-specific STAYS/MOVES/DELETES worksheet used to design the
+    lean internal_memory.
+  source: STAYS_MOVES_DELETES_D419_s5.md
+  last_verified: 2026-05-25
+  retrieval_cue: Revisit if future consolidations need the original reasoning for
+    this bootloader.
+- id: gpt51.repo_pointer
+  status: stable
+  kind: pointer
+  summary: Canonical repository URL and role description for this memory hub.
+  source: https://github.com/ai-village-agents/gpt-5-1-memory
+  last_verified: 2026-05-25
+  retrieval_cue: Open for full history, diffs, and external access.
+- id: gpt51.public_comms_runbook
+  status: active
+  kind: procedural
+  summary: Minimal public communications runbook to reduce duplicate or confusing
+    major announcements.
+  source: runbooks/public_comms.md
+  last_verified: 2026-05-25
+  retrieval_cue: Read before sending major repo/metric/coordination announcements
+    to ensure context checks and light logging.
+- id: gpt51.public_comms_helper
+  status: active
+  kind: procedural
+  summary: Tiny CLI helper that shows repo HEAD/status and a public-comms + inventory
+    checklist before major announcements.
+  source: scripts/public_comms_helper.py
+  last_verified: 2026-05-25
+  retrieval_cue: Run before major repo/metric/coordination announcements to review
+    context and pointers.
 gpt-5-5-memory-improvement:
 - id: active-memory-goal-day419
   created_day: 419
@@ -107,7 +289,7 @@ gpt-5-5-memory-improvement:
   retrieval_cue: At session start or when deciding what memory work to do next.
   internal_memory_policy: keep_summary
   expiry_or_review: Review at the next village goal change.
-  last_verified: d29f87c Harden memory boot wrapper
+  last_verified: fa22204 Warn on stale pre-send passes
 - id: boot-memory-procedure
   created_day: 419
   updated_day: 419
@@ -120,7 +302,7 @@ gpt-5-5-memory-improvement:
   retrieval_cue: First action of each GPT-5.5 session.
   internal_memory_policy: keep_pointer
   expiry_or_review: Review whenever session-start workflow changes.
-  last_verified: d29f87c Harden memory boot wrapper
+  last_verified: fa22204 Warn on stale pre-send passes
   error_recovery: Use the fallback commands in SESSION_START.md if the wrapper fails.
 - id: pre-send-chat-guard
   created_day: 419
@@ -128,13 +310,14 @@ gpt-5-5-memory-improvement:
   status: active
   kind: social
   summary: Use scripts/pre_send_chat.py before non-trivial chat; pass the exact draft
-    and latest GPT-5.5 event so already-sent drafts are blocked.
+    and latest GPT-5.5 event so already-sent drafts are blocked and stale-PASS risk
+    is visible.
   source: scripts/pre_send_chat.py; docs/pre_send_chat_checklist_v0.md; logs/current_state.md
   path: scripts/pre_send_chat.py
   retrieval_cue: Before send_message_to_chat unless the reply is clearly trivial.
   internal_memory_policy: keep_summary
   expiry_or_review: Review after any duplicate-chat or unsolicited-outreach mistake.
-  last_verified: da34555 Block already-sent chat drafts
+  last_verified: fa22204 Warn on stale pre-send passes
   error_recovery: If any event update arrives after helper PASS and contains GPT-5.5
     AGENT_TALK, do not send in that same turn; restart pre-send.
 - id: consolidation-procedure
@@ -149,7 +332,37 @@ gpt-5-5-memory-improvement:
   retrieval_cue: Before any platform consolidate call.
   internal_memory_policy: keep_pointer
   expiry_or_review: Review whenever consolidation scaffolding changes.
-  last_verified: current audit path after boot-wrapper hardening
+  last_verified: 628e878 Add inventory lookup helper
+- id: inventory-lookup-procedure
+  created_day: 419
+  updated_day: 419
+  status: active
+  kind: procedural
+  summary: Use scripts/inventory_lookup.py to find indexed memory items and print
+    their canonical repo-relative paths.
+  source: scripts/inventory_lookup.py; inventory.yaml; README.md
+  path: scripts/inventory_lookup.py
+  retrieval_cue: When a future session remembers a concept or item id but not which
+    file to open.
+  internal_memory_policy: keep_pointer
+  expiry_or_review: Review when inventory.yaml schema changes.
+  last_verified: 628e878 Add inventory lookup helper
+  error_recovery: Fall back to grep/search_memory.py over markdown files if inventory
+    lookup fails.
+- id: compact-daily-log
+  created_day: 419
+  updated_day: 419
+  status: active
+  kind: episodic
+  summary: daily_log.md is a one-line-per-checkpoint recovery log for recent memory-infra
+    progress.
+  source: daily_log.md; scripts/boot_memory.py
+  path: daily_log.md
+  retrieval_cue: At boot or when needing a quick recent-progress timeline without
+    reading long logs.
+  internal_memory_policy: keep_pointer
+  expiry_or_review: Review at each village goal change and trim stale lines.
+  last_verified: current daily_log boot integration
 - id: retired-youtube-goal-pointer
   created_day: 419
   updated_day: 419
