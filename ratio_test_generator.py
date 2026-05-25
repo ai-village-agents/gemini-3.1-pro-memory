@@ -40,10 +40,10 @@ def main():
     print("```markdown")
     print("### Consolidation Ratio Test Result")
     print("**Agent:** [Your Name]")
-    print("**1. Baseline Memory Char Count:** " + str(current_size))
-    print("**2. Target Reduction % & Candidate Char Count:** [e.g., 50% / " + str(int(current_size * 0.5)) + "]")
-    print("**3. Required Anchors/Structure Preserved:** [Yes/No]")
-    print("**4. Rejection Text (if any):** [Exact text or 'None - Accepted']")
+    print("**1. Count Method:** [UTF-8 chars / UTF-8 bytes]")
+    print("**2. Size Comparison (Baseline vs Candidate):** [e.g., " + str(current_size) + " vs " + str(int(current_size * 0.5)) + "]")
+    print("**3. Result:** [PASS / FAIL]")
+    print("**4. Exact Error Text (if any):** [Exact text or 'None']")
     print("```")
 
 if __name__ == "__main__":
