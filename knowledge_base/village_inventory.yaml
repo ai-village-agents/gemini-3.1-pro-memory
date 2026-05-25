@@ -1,0 +1,326 @@
+gemini-3.1-pro-memory:
+- id: runbook-pre-consolidate
+  status: active
+  kind: gate
+  summary: Executable guard requiring verification of git state, inventory existence,
+    and memory length floor before calling consolidate.
+  source: runbooks/pre_consolidate.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Before consolidating, memory length check, pre-flight
+  internal_memory_policy: Executable rule, not in internal memory
+- id: runbook-session-start
+  status: active
+  kind: procedural
+  summary: Mandatory startup runbook. Verifies git state, syncs logs, and displays
+    open loops.
+  source: runbooks/session_start.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Start of day, initialization, boot
+  internal_memory_policy: Linked via pointer in Bucket 2 (Exo-Memory Architecture)
+- id: runbook-pre-send-chat
+  status: active
+  kind: gate
+  summary: Executable guard requiring explicit logging of the last sent message before
+    allowing a new chat message.
+  source: runbooks/pre_send_chat.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Before sending a chat, preventing duplicates
+  internal_memory_policy: Linked via pointer in Bucket 2
+- id: reflection-day-419
+  status: active
+  kind: episodic
+  summary: Documentation of the duplicate public message failure mode and the creation
+    of executable prevention guards.
+  source: reflections/day_419_reflection.md
+  last_verified: '2026-05-25'
+  retrieval_cue: Duplicate bugs, pre_send_chat origin, day 419 summary
+  internal_memory_policy: Summarized in Bucket 2 reflections section
+- id: principle-procedural-conversion
+  status: active
+  kind: semantic
+  summary: Principle asserting that rules do not run themselves, mandating the conversion
+    of text constraints into executable runbooks.
+  source: principles/procedural_memory_conversion.md
+  last_verified: '2026-05-25'
+  retrieval_cue: Rules don't run themselves, executable guards
+  internal_memory_policy: Core operational philosophy
+- id: identity-public-comms
+  status: active
+  kind: social
+  summary: Log of recent public messages sent to prevent duplicate posting.
+  source: identity/public_communications.md
+  last_verified: '2026-05-25'
+  retrieval_cue: What did I last say, recent messages
+  internal_memory_policy: Strictly offloaded to repo
+- id: goal-current
+  status: active
+  kind: pointer
+  summary: Current overarching system goal tracking file.
+  source: goals/current_goal.md
+  last_verified: '2026-05-25'
+  retrieval_cue: Current goal, what should I be doing
+  internal_memory_policy: Mirrored in Bucket 2
+gpt-5-5-memory-improvement:
+  items:
+  - id: active-memory-goal-day419
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: working
+    summary: Improve GPT-5.5 memory by keeping internal memory as a bootloader and
+      using this repo as the external memory OS.
+    source: logs/current_state.md; docs/memory_operating_manual_v0.md
+    retrieval_cue: At session start or when deciding what memory work to do next.
+    internal_memory_policy: keep_summary
+    expiry_or_review: Review at the next village goal change.
+    last_verified: d29f87c Harden memory boot wrapper
+  - id: boot-memory-procedure
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: Run scripts/boot_memory.py at session start to verify git sync, audit,
+      smoke test, and active-state files.
+    source: scripts/boot_memory.py; SESSION_START.md
+    retrieval_cue: First action of each GPT-5.5 session.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: Review whenever session-start workflow changes.
+    last_verified: d29f87c Harden memory boot wrapper
+    error_recovery: Use the fallback commands in SESSION_START.md if the wrapper fails.
+  - id: pre-send-chat-guard
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: social
+    summary: Use scripts/pre_send_chat.py before non-trivial chat to avoid duplicate,
+      low-value, or unsafe outreach.
+    source: scripts/pre_send_chat.py; docs/pre_send_chat_checklist_v0.md; logs/current_state.md
+    retrieval_cue: Before send_message_to_chat unless the reply is clearly trivial.
+    internal_memory_policy: keep_summary
+    expiry_or_review: Review after any duplicate-chat or unsolicited-outreach mistake.
+    last_verified: commit 12ad863 and current audit path
+    error_recovery: Inspect recent events and search history before sending if duplicate
+      risk remains.
+  - id: consolidation-procedure
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: Run scripts/prepare_consolidation.py before platform consolidate and
+      make an explicit do-not-carry-forward decision.
+    source: scripts/prepare_consolidation.py; docs/consolidation_checklist_v0.md
+    retrieval_cue: Before any platform consolidate call.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: Review whenever consolidation scaffolding changes.
+    last_verified: current audit path after boot-wrapper hardening
+  - id: retired-youtube-goal-pointer
+    created_day: 419
+    updated_day: 419
+    status: retired
+    kind: pointer
+    summary: The YouTube goal is complete; keep only a compact pointer and do not
+      upload unpublished candidates without renewed gate review.
+    source: logs/retired_goals_index.md; docs/youtube_memory_retirement_plan_v0.md
+    retrieval_cue: Only if the YouTube goal is explicitly reopened or a user asks
+      about prior channel state.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: Review only on explicit YouTube-goal reactivation.
+    last_verified: final remembered YouTube commit 825035a
+claude-opus-4-7-memory:
+  items:
+  - id: active-memory-goal-d419
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: working
+    summary: Improve memory. Internal = bootloader stub; external = this repo, structured
+      semantic/episodic/procedural/task-state.
+    source: goals/active.md; current_state.md
+    retrieval_cue: At session start, after bootloader.
+    internal_memory_policy: keep_summary
+    expiry_or_review: At next village goal change.
+    last_verified: 5cb8c1e
+  - id: bootloader
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: "First action every session \u2014 git pull, cat goals/active.md + current_state.md\
+      \ + load_bearing.md, run audit.sh."
+    source: SESSION_START.md; internal_memory bootloader block
+    retrieval_cue: First action of every session.
+    internal_memory_policy: keep_summary
+    expiry_or_review: If a session ever fails to recover state on resume.
+    last_verified: "5cb8c1e \u2014 verified end-to-end across 3 consolidate-and-resume\
+      \ loops"
+  - id: load-bearing-rules
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: semantic
+    summary: Seven imperative rules read every session; rule
+    source: load_bearing.md
+    retrieval_cue: Session start; before any high-cost action.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: Whenever a rule fires or fails.
+    last_verified: 5cb8c1e
+  - id: lessons-archive
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: semantic
+    summary: Eight failure backstories with runbook crossrefs; loaded on demand, not
+      every session.
+    source: lessons.md
+    retrieval_cue: When facing a similar-shaped failure or designing a related runbook.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: When a lesson is fully internalized as a runbook.
+    last_verified: 5cb8c1e
+  - id: pre-send-chat-guard
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: social
+    summary: Forced-action bash script + runbook to prevent duplicate-message sends.
+      3 incidents in 2 weeks.
+    source: scripts/pre_send_chat.sh; runbooks/send_chat_message.md
+    retrieval_cue: BEFORE every send_message_to_chat.
+    internal_memory_policy: keep_summary
+    expiry_or_review: Review after any duplicate-message incident; promote to mandatory
+      if pattern persists.
+    last_verified: "5cb8c1e \u2014 script written, UNTESTED in real chat trigger"
+    error_recovery: If script unavailable, manually grep events for AGENT_TALK from
+      "Claude Opus 4.7".
+  - id: pre-consolidate-script
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: "Worksheet at session end \u2014 git status, audit, blockers, next-session-goal\
+      \ candidate. Prevents pre-consolidate amnesia."
+    source: scripts/pre_consolidate.sh; runbooks/consolidate.md
+    retrieval_cue: Before every CONSOLIDATE call.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: Whenever consolidation scaffolding changes.
+    last_verified: 5cb8c1e
+  - id: respond-to-admin-runbook
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: "How to process an admin/Shoshannah message \u2014 archive prior goal,\
+      \ write fresh goals/active.md verbatim, update internal CURRENT GOAL."
+    source: runbooks/respond_to_admin.md
+    retrieval_cue: When a new admin message is in events.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: If admin-message format changes.
+    last_verified: 5cb8c1e
+  - id: search-history-runbook
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: "Decision tree \u2014 check memory \u2192 check events \u2192 only then\
+      \ call search_history (10-day window limit)."
+    source: runbooks/search_history.md
+    retrieval_cue: When tempted to call search_history.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: After first real use.
+    last_verified: "5cb8c1e \u2014 written, unused"
+  - id: peer-feedback-runbook
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: Process for giving and receiving peer feedback on shared artifacts.
+    source: runbooks/peer_feedback.md
+    retrieval_cue: When reviewing peer repo / output.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: As needed.
+    last_verified: 5cb8c1e
+  - id: decisions-log
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: episodic
+    summary: Append-only architecture-decision log; 5 D419 entries explaining why
+      specific design choices were made.
+    source: decisions.md
+    retrieval_cue: When revisiting an architectural choice or proposing change.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: Never retire; append only.
+    last_verified: 5cb8c1e
+  - id: current-state-snapshot
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: task-state
+    summary: "Refreshed-at-consolidate snapshot \u2014 mid-flight tasks, open promises,\
+      \ last-session incidents, next safe action."
+    source: current_state.md
+    retrieval_cue: Session start after goals/active.md.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: Refresh every consolidate.
+    last_verified: 5cb8c1e
+  - id: research-notes-memory
+    created_day: 419
+    updated_day: 419
+    status: reference
+    kind: semantic
+    summary: "SOTA agent-memory survey \u2014 MemGPT, Voyager, Generative Agents,\
+      \ A-MEM \u2014 mapped to my design choices."
+    source: research_notes.md
+    retrieval_cue: When justifying architecture or proposing major change.
+    internal_memory_policy: pointer_only
+    expiry_or_review: As field advances.
+    last_verified: 5cb8c1e
+  - id: retired-youtube-goal-pointer
+    created_day: 412
+    updated_day: 419
+    status: retired
+    kind: pointer
+    summary: "YouTube channel goal complete \u2014 V1\u2013V6 published (8 subs),\
+      \ V7/V8 rendered-unpublished. Do not reopen unless admin reactivates."
+    source: goals/archive/youtube_channel_d412-419.md
+    retrieval_cue: Only if YouTube goal reactivated, or asked about prior channel
+      state.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: Only on explicit reactivation.
+    last_verified: "5cb8c1e \u2014 channel UCBlQbTlw-yasIuuXzVi35Ww, https://www.youtube.com/@ClaudeOpus4.7"
+  - id: validate-inventory-script
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: Walks inventory.yaml `source:` paths and reports any missing. Catches
+      drift between inventory and reality.
+    source: scripts/validate_inventory.sh
+    retrieval_cue: At pre-consolidate (now wired into pre_consolidate.sh as section
+      5b).
+    internal_memory_policy: pointer_only
+    expiry_or_review: When inventory shape changes.
+    last_verified: "02dbc56 \u2014 built D419 s4"
+  - id: query-inventory-script
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: Substring/kind/status filter over inventory.yaml. Useful when looking
+      up which runbook addresses a situation without re-reading the whole repo.
+    source: scripts/query_inventory.sh
+    retrieval_cue: When trying to recall what artifact handles a topic.
+    internal_memory_policy: pointer_only
+    expiry_or_review: When inventory shape changes.
+    last_verified: "63529e5 \u2014 built D419 s4"
+  - id: boot-script
+    created_day: 419
+    updated_day: 419
+    status: active
+    kind: procedural
+    summary: One-command bootloader. Internal memory says "bash /tmp/memory/boot.sh"
+      instead of 4 separate cat commands. Includes clone fallback.
+    source: boot.sh
+    retrieval_cue: First action of every session.
+    internal_memory_policy: keep_pointer
+    expiry_or_review: When repo structure changes meaningfully.
+    last_verified: "3e3554d \u2014 runs 171 lines of output"
