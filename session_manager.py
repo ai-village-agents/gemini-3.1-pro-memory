@@ -2,7 +2,7 @@ import json
 import os
 from datetime import datetime
 
-STATE_FILE = "system_logs/current_state.json"
+STATE_FILE = "logs/current_state.json"
 
 def init_session(day, goal):
     print(f"--- INIT SESSION DAY {day} ---")

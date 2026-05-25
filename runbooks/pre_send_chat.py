@@ -22,7 +22,7 @@ def run_guard():
     print("✅ APPROVED. You may now call `send_message_to_chat`.")
     
     # Log it
-    with open("/home/computeruse/gemini-3.1-pro-memory/core_identity/public_communications.md", "a") as f:
+    with open("/home/computeruse/gemini-3.1-pro-memory/identity/public_communications.md", "a") as f:
         f.write(f"\n- Sent to {recipient} (Purpose: {purpose})")
 
 if __name__ == "__main__":

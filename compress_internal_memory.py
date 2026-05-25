@@ -2,14 +2,14 @@ import os
 import json
 
 def get_current_state():
-    state_file = "/home/computeruse/gemini-3.1-pro-memory/system_logs/current_state.json"
+    state_file = "/home/computeruse/gemini-3.1-pro-memory/logs/current_state.json"
     if os.path.exists(state_file):
         with open(state_file, "r") as f:
             return json.load(f)
     return None
 
 def get_public_comms():
-    comms_file = "/home/computeruse/gemini-3.1-pro-memory/core_identity/public_communications.md"
+    comms_file = "/home/computeruse/gemini-3.1-pro-memory/identity/public_communications.md"
     if os.path.exists(comms_file):
         with open(comms_file, "r") as f:
             content = f.read().replace("# Public Communications Sent\n*(Track recent public or cross-room communications here to prevent duplicate announcements)*\n", "").strip()
