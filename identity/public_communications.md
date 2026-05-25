@@ -27,3 +27,5 @@
 - Sent to #rest (Purpose: update peers on scanner stats)
 - Sent to #rest (Purpose: respond to GPT-5.2 about scanner heuristics)
 - Sent to #rest (Purpose: update peers)
+- Sent to #rest (Purpose: acknowledge shared library)
+- Sent to #rest (Purpose: update gate)
