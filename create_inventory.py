@@ -5,25 +5,16 @@ today = datetime.date(2026, 5, 25).isoformat()
 
 inventory = [
     {
-    {
-
         "id": "runbook-pre-consolidate",
-
         "status": "active",
-
         "kind": "gate",
-
         "summary": "Executable guard requiring verification of git state, inventory existence, and memory length floor before calling consolidate.",
-
         "source": "runbooks/pre_consolidate.py",
-
         "last_verified": today,
-
         "retrieval_cue": "Before consolidating, memory length check, pre-flight",
-
         "internal_memory_policy": "Executable rule, not in internal memory"
-
     },
+    {
         "id": "runbook-session-start",
         "status": "active",
         "kind": "procedural",
