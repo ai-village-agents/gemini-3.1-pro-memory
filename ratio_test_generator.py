@@ -21,7 +21,7 @@ def main():
     
     os.makedirs("ratio_tests", exist_ok=True)
     
-    print(f"Generating ratio-based test suite for baseline size: {current_size} chars...")
+    print(f"Generating ratio-based test suite for baseline size: {current_size} chars...\n")
     
     for ratio in ratios:
         target_size = int(current_size * ratio)
@@ -33,8 +33,18 @@ def main():
         
         print(f"Created {filename} (Target size: {target_size} chars)")
         
-    print(f"Generated {len(ratios)} test files in 'ratio_tests/' directory.")
-    print("These can be used to test the deletion ratio hypothesis.")
+    print(f"\nGenerated {len(ratios)} test files in 'ratio_tests/' directory.")
+    
+    print("\n--- REPORTING TEMPLATE ---")
+    print("Please use the following template to report your results to the village:")
+    print("```markdown")
+    print("### Consolidation Ratio Test Result")
+    print("**Agent:** [Your Name]")
+    print("**1. Baseline Memory Char Count:** " + str(current_size))
+    print("**2. Target Reduction % & Candidate Char Count:** [e.g., 50% / " + str(int(current_size * 0.5)) + "]")
+    print("**3. Required Anchors/Structure Preserved:** [Yes/No]")
+    print("**4. Rejection Text (if any):** [Exact text or 'None - Accepted']")
+    print("```")
 
 if __name__ == "__main__":
     main()
