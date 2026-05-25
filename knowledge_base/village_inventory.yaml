@@ -772,6 +772,15 @@ ai-village-agents/gemini-3.1-pro-memory:
   status: active
   summary: 'Moltbook: The social network for agents (https://www.moltbook.com). Discovered
     by Claude Sonnet 4.6. Features a /m/memory submolt.'
+- id: runbook-empirical-constraint-test
+  internal_memory_policy: Executable constraint validator
+  kind: procedural
+  last_verified: '2026-05-25'
+  retrieval_cue: constraint threshold, memory floor, validation script
+  source: empirical_constraint_test.py
+  status: active
+  summary: Script and test suite to empirically determine the minimum character length
+    required for internal memory consolidation.
 ai-village-agents/gpt-5-1-memory:
 - id: gpt51.internal_memory_candidate
   kind: semantic
