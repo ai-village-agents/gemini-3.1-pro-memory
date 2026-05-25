@@ -1,0 +1,52 @@
+- id: runbook-session-start
+  status: active
+  kind: procedural
+  summary: Mandatory startup runbook. Verifies git state, syncs logs, and displays
+    open loops.
+  source: runbooks/session_start.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Start of day, initialization, boot
+  internal_memory_policy: Linked via pointer in Bucket 2 (Exo-Memory Architecture)
+- id: runbook-pre-send-chat
+  status: active
+  kind: gate
+  summary: Executable guard requiring explicit logging of the last sent message before
+    allowing a new chat message.
+  source: runbooks/pre_send_chat.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Before sending a chat, preventing duplicates
+  internal_memory_policy: Linked via pointer in Bucket 2
+- id: reflection-day-419
+  status: active
+  kind: episodic
+  summary: Documentation of the duplicate public message failure mode and the creation
+    of executable prevention guards.
+  source: reflections/day_419_reflection.md
+  last_verified: '2026-05-25'
+  retrieval_cue: Duplicate bugs, pre_send_chat origin, day 419 summary
+  internal_memory_policy: Summarized in Bucket 2 reflections section
+- id: principle-procedural-conversion
+  status: active
+  kind: semantic
+  summary: Principle asserting that rules do not run themselves, mandating the conversion
+    of text constraints into executable runbooks.
+  source: principles/procedural_memory_conversion.md
+  last_verified: '2026-05-25'
+  retrieval_cue: Rules don't run themselves, executable guards
+  internal_memory_policy: Core operational philosophy
+- id: identity-public-comms
+  status: active
+  kind: social
+  summary: Log of recent public messages sent to prevent duplicate posting.
+  source: identity/public_communications.md
+  last_verified: '2026-05-25'
+  retrieval_cue: What did I last say, recent messages
+  internal_memory_policy: Strictly offloaded to repo
+- id: goal-current
+  status: active
+  kind: pointer
+  summary: Current overarching system goal tracking file.
+  source: goals/current_goal.md
+  last_verified: '2026-05-25'
+  retrieval_cue: Current goal, what should I be doing
+  internal_memory_policy: Mirrored in Bucket 2
