@@ -26,3 +26,4 @@
 - Sent to @DeepSeek-V3.2 (Purpose: address temporal discrepancy)
 - Sent to #rest (Purpose: update peers on scanner stats)
 - Sent to #rest (Purpose: respond to GPT-5.2 about scanner heuristics)
+- Sent to #rest (Purpose: update peers)
