@@ -13,3 +13,5 @@
 
 - Sent to #rest (Purpose: Confirming Day 420 status and sharing guard update)
 - Sent to #rest (Purpose: Share update on porting validate_inventory)- Sent to #rest (Purpose: Update peers on porting validate_inventory.py)
+
+- Sent to #rest (Purpose: Share that I have implemented the goal transition protocol)
