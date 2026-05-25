@@ -60,6 +60,24 @@ gemini-3.1-pro-memory:
   last_verified: '2026-05-25'
   retrieval_cue: Current goal, what should I be doing
   internal_memory_policy: Mirrored in Bucket 2
+- id: runbook-scan-inventories
+  status: active
+  kind: procedural
+  summary: Cross-agent inventory scanner that aggregates knowledge from peers into
+    knowledge_base/village_inventory.yaml.
+  source: runbooks/scan_peer_inventories.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Scan peers, update village inventory
+  internal_memory_policy: Core capability
+- id: runbook-analyze-inventory
+  status: active
+  kind: procedural
+  summary: Utility to analyze the aggregated village_inventory.yaml and report on
+    tool adoption.
+  source: analyze_village_inventory.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Analyze peers, what are peers building
+  internal_memory_policy: Utility script
 gpt-5-5-memory-improvement:
 - id: active-memory-goal-day419
   created_day: 419
@@ -91,15 +109,15 @@ gpt-5-5-memory-improvement:
   updated_day: 419
   status: active
   kind: social
-  summary: Use scripts/pre_send_chat.py before non-trivial chat to avoid duplicate,
-    low-value, or unsafe outreach.
+  summary: Use scripts/pre_send_chat.py before non-trivial chat; pass the exact draft
+    and latest GPT-5.5 event so already-sent drafts are blocked.
   source: scripts/pre_send_chat.py; docs/pre_send_chat_checklist_v0.md; logs/current_state.md
   retrieval_cue: Before send_message_to_chat unless the reply is clearly trivial.
   internal_memory_policy: keep_summary
   expiry_or_review: Review after any duplicate-chat or unsolicited-outreach mistake.
-  last_verified: commit 12ad863 and current audit path
-  error_recovery: Inspect recent events and search history before sending if duplicate
-    risk remains.
+  last_verified: da34555 Block already-sent chat drafts
+  error_recovery: If any event update arrives after the helper PASS, rerun with the
+    new latest GPT-5.5 event; if it matches the draft, do not send.
 - id: consolidation-procedure
   created_day: 419
   updated_day: 419
@@ -179,6 +197,14 @@ gpt-5-4-memory-kit:
   last_verified: 2026-05-25
   retrieval_cue: Run when editing the memory store directly or before trusting changed
     external-memory state.
+- id: gpt54.inventory_validator
+  status: active
+  kind: gate
+  summary: Inventory validator that checks required shared fields, duplicate ids,
+    and relative source file existence.
+  source: tools/validate_inventory.py
+  last_verified: 2026-05-25
+  retrieval_cue: Run after editing inventory.yaml or adding a new indexed component.
 - id: gpt54.always_loaded_anchors
   status: stable
   kind: semantic
@@ -385,6 +411,7 @@ claude-opus-4-7-memory:
   summary: Improve memory. Internal = bootloader stub; external = this repo, structured
     semantic/episodic/procedural/task-state.
   source: goals/active.md; current_state.md
+  path: goals/active.md
   retrieval_cue: At session start, after bootloader.
   internal_memory_policy: keep_summary
   expiry_or_review: At next village goal change.
@@ -397,6 +424,7 @@ claude-opus-4-7-memory:
   summary: "First action every session \u2014 git pull, cat goals/active.md + current_state.md\
     \ + load_bearing.md, run audit.sh."
   source: SESSION_START.md; internal_memory bootloader block
+  path: SESSION_START.md
   retrieval_cue: First action of every session.
   internal_memory_policy: keep_summary
   expiry_or_review: If a session ever fails to recover state on resume.
@@ -409,6 +437,7 @@ claude-opus-4-7-memory:
   kind: semantic
   summary: Seven imperative rules read every session; rule
   source: load_bearing.md
+  path: load_bearing.md
   retrieval_cue: Session start; before any high-cost action.
   internal_memory_policy: keep_pointer
   expiry_or_review: Whenever a rule fires or fails.
@@ -421,6 +450,7 @@ claude-opus-4-7-memory:
   summary: Eight failure backstories with runbook crossrefs; loaded on demand, not
     every session.
   source: lessons.md
+  path: lessons.md
   retrieval_cue: When facing a similar-shaped failure or designing a related runbook.
   internal_memory_policy: keep_pointer
   expiry_or_review: When a lesson is fully internalized as a runbook.
@@ -433,6 +463,7 @@ claude-opus-4-7-memory:
   summary: Forced-action bash script + runbook to prevent duplicate-message sends.
     3 incidents in 2 weeks.
   source: scripts/pre_send_chat.sh; runbooks/send_chat_message.md
+  path: scripts/pre_send_chat.sh
   retrieval_cue: BEFORE every send_message_to_chat.
   internal_memory_policy: keep_summary
   expiry_or_review: Review after any duplicate-message incident; promote to mandatory
@@ -448,6 +479,7 @@ claude-opus-4-7-memory:
   summary: "Worksheet at session end \u2014 git status, audit, blockers, next-session-goal\
     \ candidate. Prevents pre-consolidate amnesia."
   source: scripts/pre_consolidate.sh; runbooks/consolidate.md
+  path: scripts/pre_consolidate.sh
   retrieval_cue: Before every CONSOLIDATE call.
   internal_memory_policy: keep_pointer
   expiry_or_review: Whenever consolidation scaffolding changes.
@@ -460,6 +492,7 @@ claude-opus-4-7-memory:
   summary: "How to process an admin/Shoshannah message \u2014 archive prior goal,\
     \ write fresh goals/active.md verbatim, update internal CURRENT GOAL."
   source: runbooks/respond_to_admin.md
+  path: runbooks/respond_to_admin.md
   retrieval_cue: When a new admin message is in events.
   internal_memory_policy: keep_pointer
   expiry_or_review: If admin-message format changes.
@@ -472,6 +505,7 @@ claude-opus-4-7-memory:
   summary: "Decision tree \u2014 check memory \u2192 check events \u2192 only then\
     \ call search_history (10-day window limit)."
   source: runbooks/search_history.md
+  path: runbooks/search_history.md
   retrieval_cue: When tempted to call search_history.
   internal_memory_policy: keep_pointer
   expiry_or_review: After first real use.
@@ -483,6 +517,7 @@ claude-opus-4-7-memory:
   kind: procedural
   summary: Process for giving and receiving peer feedback on shared artifacts.
   source: runbooks/peer_feedback.md
+  path: runbooks/peer_feedback.md
   retrieval_cue: When reviewing peer repo / output.
   internal_memory_policy: keep_pointer
   expiry_or_review: As needed.
@@ -495,6 +530,7 @@ claude-opus-4-7-memory:
   summary: Append-only architecture-decision log; 5 D419 entries explaining why specific
     design choices were made.
   source: decisions.md
+  path: decisions.md
   retrieval_cue: When revisiting an architectural choice or proposing change.
   internal_memory_policy: keep_pointer
   expiry_or_review: Never retire; append only.
@@ -507,6 +543,7 @@ claude-opus-4-7-memory:
   summary: "Refreshed-at-consolidate snapshot \u2014 mid-flight tasks, open promises,\
     \ last-session incidents, next safe action."
   source: current_state.md
+  path: current_state.md
   retrieval_cue: Session start after goals/active.md.
   internal_memory_policy: keep_pointer
   expiry_or_review: Refresh every consolidate.
@@ -519,6 +556,7 @@ claude-opus-4-7-memory:
   summary: "SOTA agent-memory survey \u2014 MemGPT, Voyager, Generative Agents, A-MEM\
     \ \u2014 mapped to my design choices."
   source: research_notes.md
+  path: research_notes.md
   retrieval_cue: When justifying architecture or proposing major change.
   internal_memory_policy: pointer_only
   expiry_or_review: As field advances.
@@ -531,6 +569,7 @@ claude-opus-4-7-memory:
   summary: "YouTube channel goal complete \u2014 V1\u2013V6 published (8 subs), V7/V8\
     \ rendered-unpublished. Do not reopen unless admin reactivates."
   source: goals/archive/youtube_channel_d412-419.md
+  path: goals/archive/youtube_channel_d412-419.md
   retrieval_cue: Only if YouTube goal reactivated, or asked about prior channel state.
   internal_memory_policy: keep_pointer
   expiry_or_review: Only on explicit reactivation.
@@ -543,6 +582,7 @@ claude-opus-4-7-memory:
   summary: Walks inventory.yaml `source:` paths and reports any missing. Catches drift
     between inventory and reality.
   source: scripts/validate_inventory.sh
+  path: scripts/validate_inventory.sh
   retrieval_cue: At pre-consolidate (now wired into pre_consolidate.sh as section
     5b).
   internal_memory_policy: pointer_only
@@ -556,6 +596,7 @@ claude-opus-4-7-memory:
   summary: Substring/kind/status filter over inventory.yaml. Useful when looking up
     which runbook addresses a situation without re-reading the whole repo.
   source: scripts/query_inventory.sh
+  path: scripts/query_inventory.sh
   retrieval_cue: When trying to recall what artifact handles a topic.
   internal_memory_policy: pointer_only
   expiry_or_review: When inventory shape changes.
@@ -568,6 +609,7 @@ claude-opus-4-7-memory:
   summary: One-command bootloader. Internal memory says "bash /tmp/memory/boot.sh"
     instead of 4 separate cat commands. Includes clone fallback.
   source: boot.sh
+  path: boot.sh
   retrieval_cue: First action of every session.
   internal_memory_policy: keep_pointer
   expiry_or_review: When repo structure changes meaningfully.
@@ -637,3 +679,12 @@ memory-improvement:
   last_verified: 2026-05-25
   retrieval_cue: When searching memory files for context retrieval.
   internal_memory_policy: always_loaded
+- id: mem-009
+  status: active
+  kind: procedural
+  summary: Aggregates inventory.yaml files from peer agent repositories via GitHub
+    raw URLs.
+  source: scan_agent_inventories.py
+  last_verified: 2026-05-25
+  retrieval_cue: When discovering cross-agent tools and convergence patterns.
+  internal_memory_policy: on_demand

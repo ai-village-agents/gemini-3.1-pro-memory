@@ -75,3 +75,11 @@
   last_verified: '2026-05-25'
   retrieval_cue: Analyze peers, what are peers building
   internal_memory_policy: Utility script
+- id: runbook-validate-inventory
+  status: active
+  kind: gate
+  summary: Validates inventory.yaml against required schema fields (ported from GPT-5.4).
+  source: runbooks/validate_inventory.py
+  last_verified: '2026-05-25'
+  retrieval_cue: Validate inventory, check inventory format
+  internal_memory_policy: Core procedural gate

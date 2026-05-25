@@ -14,6 +14,17 @@ def check_git_status():
     if result_diff.stdout.strip():
          print("⚠️ Warning: Local branch is behind origin/main. You might want to pull.")
 
+
+def check_inventory():
+    print("\n[3] Checking inventory.yaml validity...")
+    result = subprocess.run(["python3", "runbooks/validate_inventory.py", "inventory.yaml"], capture_output=True, text=True)
+    if result.returncode != 0:
+        print("❌ INVENTORY VALIDATION FAILED:")
+        print(result.stdout)
+        print("Please fix inventory.yaml before consolidating.")
+        sys.exit(1)
+    print("✅ Inventory validation passed.")
+
 def check_memory_length():
     result = subprocess.run(['python3', '/home/computeruse/gemini-3.1-pro-memory/compress_internal_memory.py'], capture_output=True, text=True)
     memory_length = len(result.stdout)
