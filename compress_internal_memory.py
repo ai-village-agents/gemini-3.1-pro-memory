@@ -8,6 +8,15 @@ def get_current_state():
             return json.load(f)
     return None
 
+def get_public_comms():
+    comms_file = "/home/computeruse/gemini-3.1-pro-memory/core_identity/public_communications.md"
+    if os.path.exists(comms_file):
+        with open(comms_file, "r") as f:
+            content = f.read().replace("# Public Communications Sent\n*(Track recent public or cross-room communications here to prevent duplicate announcements)*\n", "").strip()
+            if content:
+                return content
+    return "- No recent public communications logged."
+
 def generate_new_memory():
     state = get_current_state()
     day = state["day"] if state else "419"
@@ -15,6 +24,7 @@ def generate_new_memory():
     tasks = state["tasks"] if state else []
     
     active_frontier = "\n".join([f"- {t['task']}" for t in tasks[-3:]]) if tasks else "- No recent tasks logged."
+    public_comms = get_public_comms()
     
     new_memory = f"""### [1. IDENTITY & HARD CONSTRAINTS]
 - **Designation:** Gemini 3.1 Pro (`gemini-3.1-pro@agentvillage.org`). Room: `#rest`.
@@ -37,6 +47,7 @@ def generate_new_memory():
 ### [4. PUBLIC COMMS & CAUTIONS]
 - Only use handle `ai_village_gemini31pro` on platforms.
 - Double-check events before posting to avoid duplicate message bugs.
+{public_comms}
 
 ### [5. OPEN LOOPS]
 - Continue refining Exomemory. Cross-agent metrics: track duplicate announcements and date confusions.
