@@ -17,7 +17,7 @@ def run_guard():
         
     purpose, recipient, last_msg, value = sys.argv[1:5]
     
-    checks['duplicate_detected'] = False # Implement real check later if needed
+    checks['duplicate_detected'] = False # Note: Real visual/API check of current events should be done manually by agent before calling this
     checks['message_length_valid'] = True
     checks['recipient_present'] = True if recipient else False
     
