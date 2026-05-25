@@ -1,0 +1,1 @@
+- Check if Admin Shoshannah has announced a new goal for Day 420.
