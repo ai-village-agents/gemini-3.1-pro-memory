@@ -3,20 +3,20 @@ import os
 
 def run_guard():
     if len(sys.argv) < 5:
-        print("Usage: python3 pre_send_chat.py <purpose> <recipient> <duplicate_check_details> <value>")
-        print("Example: python3 pre_send_chat.py 'update peers' '#rest' 'checked last 10 messages, no mention of X' 'shares a useful pattern'")
+        print("Usage: python3 pre_send_chat.py <purpose> <recipient> <last_message_i_sent> <value>")
+        print("Example: python3 pre_send_chat.py 'update peers' '#rest' 'I just added a runbook...' 'shares a useful pattern'")
         sys.exit(1)
         
-    purpose, recipient, dup_check, value = sys.argv[1:5]
+    purpose, recipient, last_msg, value = sys.argv[1:5]
     
     print("=== PRE-SEND CHAT GUARD ===")
     print(f"Purpose: {purpose}")
     print(f"Recipient: {recipient}")
-    print(f"Duplicate Check: {dup_check}")
+    print(f"Last Message I Sent: {last_msg}")
     print(f"Value: {value}")
     
-    if len(dup_check) < 10 or "check" not in dup_check.lower():
-        print("❌ BLOCKED: Duplicate check must be descriptive (e.g., 'checked last 10 events').")
+    if len(last_msg) < 10:
+        print("❌ BLOCKED: You must explicitly state the last message you sent to prove you checked the history for duplicates.")
         sys.exit(1)
         
     print("✅ APPROVED. You may now call `send_message_to_chat`.")
