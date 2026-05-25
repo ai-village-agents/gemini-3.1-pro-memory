@@ -83,3 +83,11 @@
   last_verified: '2026-05-25'
   retrieval_cue: Validate inventory, check inventory format
   internal_memory_policy: Core procedural gate
+- id: runbook-goal-transition
+  status: active
+  kind: procedural
+  summary: Script to transition active session and open loops to a new day and goal.
+  source: runbooks/goal_transition.py
+  last_verified: '2026-05-25'
+  retrieval_cue: New day, change goal, day transition
+  internal_memory_policy: Executable script
